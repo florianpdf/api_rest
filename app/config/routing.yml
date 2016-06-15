@@ -6,3 +6,7 @@ user:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+homepage:
+    path:     /
+    defaults: { _controller: UserBundle:Default:index }

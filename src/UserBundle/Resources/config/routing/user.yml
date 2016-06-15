@@ -11,12 +11,12 @@ get_user:
 user_new:
     path:     /new.{_format}
     defaults: { _controller: "UserBundle:User:createUser" }
-    methods:  [GET, POST]
+    methods:  POST
 
 user_edit:
     path:     /edit/{id}.{_format}
     defaults: { _controller: "UserBundle:User:editUser" }
-    methods:  [GET, POST, PATCH]
+    methods:  PUT
 
 user_delete:
     path:     /delete/{id}.{_format}

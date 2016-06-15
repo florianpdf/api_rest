@@ -48,8 +48,10 @@ class UserController extends FOSRestController
     public function createUserAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm(new \UserBundle\Form\UserType(), $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(new \UserBundle\Form\UserType());
+        $form->setData($user);
+        $jsonData = json_decode($request->getContent(), true); // "true" to get an associative array
+        $form->bind($jsonData);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -70,13 +72,14 @@ class UserController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('UserBundle:User')->find($id);
 
-        $editForm = $this->createForm('UserBundle\Form\UserType', $user, array('method' => 'PATCH'));
+        $editForm = $this->createForm('UserBundle\Form\UserType', $user);
 
-        $editForm->handleRequest($request);
+        $jsonData = json_decode($request->getContent(), true); // "true" to get an associative array
+
+        $editForm->bind($jsonData);
         if ($user) {
-            if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if ($editForm->isValid()) {
 
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
 

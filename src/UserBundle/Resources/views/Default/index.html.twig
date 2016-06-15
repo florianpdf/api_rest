@@ -1,1 +1,67 @@
-Hello World!
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" href=""/>
+    <title>Sample</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('bundles/user/css/style.css') }}">
+    <!-- AngularJS -->
+    <script src="{{ asset('bundles/user/js/libs/angular.min.js') }}"></script>
+    <script src="{{ asset('bundles/user/js/libs/angular-route.min.js') }}"></script>
+    <script src="{{ asset('bundles/user/js/controllers/mainController.js') }}"></script>
+    <script src="{{ asset('bundles/user/js/services/userService.js') }}"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-border" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#/"><img src="https://unhosted.org/slides/img/js.png" width="50px"></a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li ng-class="{active: activetab=='/'}"><a href="#/">Home</a></li>
+            <li ng-class="{active: activetab=='/about'}"><a href="#/about">About</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <ng-view></ng-view>
+</div>
+</body>
+</html>
+
+<script>
+    function config($routeProvider) {
+        $routeProvider
+                .when('/', {
+                    templateUrl: "{{ asset('bundles/user/views/main.html') }}",
+                    controller: 'mainController'
+                })
+                .when('/about', {
+                    templateUrl: "{{ asset('bundles/user/views/about.html') }}"
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
+    }
+
+    function run($rootScope, $location) {
+        var path = function () {
+            return $location.path();
+        };
+        $rootScope.$watch(path, function (newVal, oldVal) {
+            $rootScope.activetab = newVal;
+        });
+    }
+    angular.module('app', ['ngRoute'])
+            .config(config)
+            .controller('mainController', mainController)
+            .service('userService', userService)
+            /*.factory('', )*/
+            .run(run);
+</script>

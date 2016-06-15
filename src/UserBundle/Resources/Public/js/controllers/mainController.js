@@ -10,8 +10,9 @@ function mainController($scope, $http, userService) {
 	}
 
 	$scope.add = function(){
+		debugger
 		var data = {};
-		data.user = $scope.user;
+		data.name = $scope.name;
 		userService.create(data).then(function(res){
 			load();
 		});
