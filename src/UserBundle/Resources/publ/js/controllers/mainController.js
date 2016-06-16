@@ -5,7 +5,6 @@ function mainController($scope, $http, userService) {
 	function load(){
 		userService.get().then(function(res){
 			$scope.users = res.data.users;
-			console.log($scope.users);
 		});
 	}
 
@@ -22,6 +21,7 @@ function mainController($scope, $http, userService) {
 	$scope.update = function(user) {
 		userService.update(user.id, user).then(function (res) {
 			load();
+			console.log(res.data);
 		});
 	};
 

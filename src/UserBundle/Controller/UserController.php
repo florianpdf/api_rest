@@ -49,7 +49,6 @@ class UserController extends FOSRestController
     {
         $user = new User();
         $form = $this->createForm(new \UserBundle\Form\UserType());
-        $form->setData($user);
         $jsonData = json_decode($request->getContent(), true); // "true" to get an associative array
         $form->bind($jsonData);
 
